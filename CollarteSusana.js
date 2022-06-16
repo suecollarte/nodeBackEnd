@@ -1,45 +1,61 @@
-
 class Usuario {
-    constructor(nombre,apellido,mascotas,libros) {
+    constructor(nombre,apellido) {
         this.nombre= nombre;
         this.apellido=apellido;
-        this.mascotas=mascotas;
-        this.libros=libros;
-        
+       
     }
-}
-const Libros =[
-    {"nombre":"xxxx","autor":"yyy"},
-    {"nombre":"wwww","autor":"tttt"}
-];
 
-const Mascotas = [{"tipo":"perro"},{"tipo":"gato"}] ;
-const persona1= new Usuario ("Susana", "Collarte") ;
-
-function getFullName(){
-    console.log(persona1.nombre+persona1.apellido)  
-}
-getFullName();
-function addMascota(x){
-
-Mascotas.push({"tipo":"gato"});
+    get getFullName(){
+        return this.FullName;
+    }
+    FullName(){
+        return "Usuario"+this.nombre +" "+ this.apellido;
+    }
     
 }
-addMascota("Kiko","pastor");
+class Libros {
+    constructor(nombre,autor) {
+        this.nombre= nombre;
+        this.autor=autor;
+       
+    }
+    get getBookNames(){
+        return this.BookNames();
+        //console.log(Libros[2]);
+     }
+ BookNames(){
+    return "Libro "+this.nombre+" "+this.autor;
+ }
+
+}
+class Mascotas {
+    constructor(tipo) {
+        this.tipo= tipo;
+       
+       
+    }
+    
+
+}
+const persona1= new Usuario ("Susana", "Collarte") ;
+const libro_1 = new Libros ("xxxx","yyy");
+    
+const mascota1 = new Mascotas("perro");
+const mascota2 = new Mascotas("gato");
 
 function countMascotas(){
+  
+    console.log(Mascotas);
+    console.log("Hay "+Mascotas.length+" mascotas");
+    }
     
-console.log(Mascotas);
-console.log("Hay "+Mascotas.length+" mascotas");
-}
-countMascotas();  
+countMascotas();
+const mascota3 = new Mascotas("gato");
 
-function addBook(x,y){ 
-Libros.push({"nombre":x,"raza":y});
+console.log(persona1.getFullName);
+console.log(libro_1.getBookNames);
 
-} 
-addBook("señor de los anillos", "JRR Tolkien");
-function getBookNames(){
-   console.log(Libros[2]);
-}
-getBookNames(); 
+/* addBook*/
+const libro_2=new Libros ("señor de los anillos", "JRR Tolkien")
+
+console.log(libro_2.getBookNames);
