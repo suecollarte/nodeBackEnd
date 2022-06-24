@@ -8,7 +8,7 @@ deleteAll
 */
 
 const fs= require('fs');
-try {
+/* try {
 const data=fs.readFileSync('./docu.txt','utf-8');
 fs.writeFileSync('./docu.txt','ESTO ES UNA PRUEBA');
 const fecha = new Date();
@@ -49,9 +49,21 @@ try {
             //error
         }
     }
-    escribir();
+    escribir(); */
 
+class Producto {
+        constructor (title,preci,thumbail){
+             this.title=title;
+             this.preci=preci;
+             this.thumbail=thumbail
+    
+    
+        }
+    }
 
+ const pro=new Producto('title1',56.04,'thumbail1')    ;
+
+    // await y async
 class Contenedor {
     constructor (nombrearchivo,id){
          this.nombrearchivo=[];
@@ -60,18 +72,17 @@ class Contenedor {
 
     }
    
-save(e){
-    try {
-        
-        fs.writeFileSync(e,e);
-      
-         this.nombrearchivo.push('/docu.txt') ;
-          this.id =this.id +1; 
-        console.log(this.id);
+ async save(e){
+     try {
+        console.log(e);
+        await fs.promises.writeFile('./productos.txt',e);
+        this.nombrearchivo.push(e) ;
+        this.id =this.id +1; 
+        //console.log(this.id);
         return this.id;
         } catch (err){
             console.log(err);
-        return 0;
+        //return 0;
         }
     
 
@@ -79,26 +90,33 @@ save(e){
     }
 
 getById(e){
-    const data1=fs.readFileSync(this.nombrearchivo[e],'utf-8');
+    const data1=fs.readFileSync('./productos.txt',this.nombrearchivo[e]);
  return data1
     
     
     
 }
-getAll(){
+async getAll(){
     let i=0;
-    for(i=0;i< this.id;i++){
-        fs.readFileSync(this.nombrearchivo[i],function(err){
-            if (err) throw err;
-            
-        });
+    try{
+        for(i=0;i< this.id;i++){
+          const contenido=this.nombrearchivo[i];
+         return contenido;
+        }
+    }
+    catch (err) {
+                console.log("error");
+    }
+    
         
 
     }
     
     
-}
-deleteById(e){
+
+
+deleteById(e)
+{
     
         
         fs.unlink(this.nombrearchivo[e],function(err){
@@ -112,7 +130,9 @@ deleteById(e){
 
 
 
-deletreAll(){
+deletreAll()
+{
+    
     let i=0;
     for(i=0;i< this.id;i++){
         fs.unlink(this.nombrearchivo[i],function(err){
@@ -124,10 +144,10 @@ deletreAll(){
     }
     
 }
-
 }
+
 const p=new Contenedor();
 //const dataarch=fs.readFileSync('./docu.txt','utf-8');
 //console.log(p.save(dataarch));
-p.save('./producto.txt');
-p.getAll();
+p.save(pro.title);
+console.log(p.getAll());
