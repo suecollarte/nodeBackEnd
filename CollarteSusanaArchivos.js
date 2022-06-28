@@ -72,13 +72,13 @@ class Contenedor {
 
     }
    
- async save(e){
+ async save(e,archivo){
      try {
         console.log(e);
-        await fs.promises.writeFile('./productos.txt',e);
-        this.nombrearchivo.push(e) ;
+        await fs.promises.writeFile(archivo,JSON.stringify(e));
+        this.nombrearchivo.push(archivo) ;
         this.id =this.id +1; 
-        //console.log(this.id);
+        console.log(this.id, this.nombrearchivo,JSON.stringify(e));
         return this.id;
         } catch (err){
             console.log(err);
@@ -90,7 +90,7 @@ class Contenedor {
     }
 
 getById(e){
-    const data1=fs.readFileSync('./productos.txt',this.nombrearchivo[e]);
+    const data1=fs.readFileSync(this.nombrearchivo[e],'UTF-6');
  return data1
     
     
@@ -130,7 +130,7 @@ deleteById(e)
 
 
 
-deletreAll()
+deleteAll()
 {
     
     let i=0;
@@ -147,7 +147,6 @@ deletreAll()
 }
 
 const p=new Contenedor();
-//const dataarch=fs.readFileSync('./docu.txt','utf-8');
-//console.log(p.save(dataarch));
-p.save(pro.title);
+
+p.save('./producto.txt','producton,666,foton');
 console.log(p.getAll());
