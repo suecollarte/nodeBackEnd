@@ -17,91 +17,85 @@ const port =3000;
 
 
 const fs= require('fs');
-class Constructor {
-    constructor (archivo){
-         this.archivo=this.archivo
-         this.productos=[]
-         this.id=1
-    }
- async getAll(){
-        const data1=fs.readFileSync('./productos.txt','UTF-8');
-        //this.productos=data1.map((data1) =>data1);
-        return data1;
-     }
-Nombres1(e){
-        obj1=getAll();
-        let nombreproducto=this.producto.map((obj1) =>{return (obj1)});
-    
-        let Nombre=nombreproducto[e];
-        return Nombre;
-     }
 
-async save(e){
-     this.getAll();
-     this.productos.push(e);
- try {
-   
-       await fs.writeFile("./productos.txt",JSON.stringify(this.productos));
-    return 
-    } catch (err){
-        console.log(err);
-    //return 0;
-    }
-    
+class Construye {
 
+constructor (archivo){
+      this.archivo=archivo
+}
+
+getAll(){
+
+    try{
+
+        const contenido= fs.readFileSync(this.archivo,'utf-8'); //sincrono solo se ejecuta este primero
+        const datos=JSON.parse(contenido); //parse lo pone este string como array
+        
+        return datos;
+    }
+
+    catch (error){
+        console.log('error');
+
+    }
+
+    
+}
+
+
+save(e){
+    let obj= this.getAll();
+    var arr = Object.keys(obj).map(function (key) {return obj[key];});
+    arr.push(e);
+
+    try {
+
+    fs.writeFileSync(this.archivo,JSON.stringify(arr,null,2));
+
+    } 
+    catch (err){
+
+    console.log('error',err);
+
+    }
 
 }
 
 }
 
 
-/* 
-deleteAll() {
-    // console.log(productosGuardados)
-    let array = productosGuardados.splice(0, productosGuardados.length);
-    
-    
-    fs.promises.writeFile(
-      "productos.txt",
-      JSON.stringify(array),
-      function (err) {
-        if (err) throw err;
-        console.log("Elemento eliminado!");
-      }
-    ); 
-    */
+//ejecucion
+const p=new Construye();
+p.archivo = './productos.txt';
 
-const p=new Constructor();
-p.save('Escuadra', 123.45, 'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png');
-p.save('Calculadora', 234.56, 'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png');
-p.save('Globo Terraqueo', 345.67, 'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png');
-p.save('producto5', 99000, 'www.xxx.cl/foto5.jpg');
-p.save("producto99", 56000, "www.ccc.cl/foto1.jpg")   ;
-console.log(p);
+const p1={
 
-//var task_names = p.map((task) => task.name );
-//p.producto.forEach(element => console.log(element));
-//const dataarch=fs.readFileSync('./docu.txt','utf-8');
-//console.log(p.save(dataarch));
-//p.save('./producto.txt',pro);
-//console.log(p.getAll());
-//const arr=p.leerTC('./productotxt');
+nombre:'Escuadra', precio:'123.45', thumbail:'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png'};
+//p.save(p1);
+
+const p2 ={nombre:'Calculadora', precio:234.56, thumbail:'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png'};
+//p.save(p2);
+
+const p3={nombre:'Globo Terraqueo', precio: 345.67, thumbail: 'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png'}
+//p.save(p3);
 
 
-
-
-let prod=p.getAll();
-
+const productoAll=p.getAll();
 app.get('/productos',(req,res)=> {
-    res.send(`<h1>Productos: </h1> ${prod}`);
+   
+    var arr = Object.keys(productoAll).map(function (key) {return productoAll[key];});
+    //console.log(Object.values(productoAll));
+   
+    return res.send(arr);
 
     
 })
 app.get('/random',(req,res)=>{
-    let rand= Math.floor(Math.random() * 5);
-    let lista=p.getall();
-    let prod1=lista(rand);
-    res.send(`Random aleatorio: ${prod1}`);
+    var arr = Object.keys(productoAll).map(function (key) {return productoAll[key];});
+    //console.log(Object.values(productoAll));
+    let rand= Math.floor(Math.random() * 3);
+    res.send(arr[rand]);
+    
 })
 app.get('/clima',(req,res)=> {
     res.send("hace frio ");
