@@ -45,7 +45,7 @@ getAll(){
 
 save(e){
     let obj= this.getAll();
-    var arr = Object.keys(obj).map(function (key) {return obj[key];});
+    let arr = Object.keys(obj).map(function (key) {return obj[key];});
     arr.push(e);
 
     try {
@@ -83,7 +83,7 @@ const p3={nombre:'Globo Terraqueo', precio: 345.67, thumbail: 'https://cdn3.icon
 const productoAll=p.getAll();
 app.get('/productos',(req,res)=> {
    
-    var arr = Object.keys(productoAll).map(function (key) {return productoAll[key];});
+    let arr = Object.keys(productoAll).map(function (key) {return productoAll[key];});
     //console.log(Object.values(productoAll));
    
     return res.send(arr);
@@ -91,7 +91,7 @@ app.get('/productos',(req,res)=> {
     
 })
 app.get('/random',(req,res)=>{
-    var arr = Object.keys(productoAll).map(function (key) {return productoAll[key];});
+    let arr = Object.keys(productoAll).map(function (key) {return productoAll[key];});
     //console.log(Object.values(productoAll));
     let rand= Math.floor(Math.random() * 3);
     res.send(arr[rand]);
