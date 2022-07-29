@@ -1,5 +1,5 @@
 /*
-clase Contenedor nombre de archivo 
+clase Contenedor nombre de Contenedor 
 save
 getById
 getAll
@@ -8,145 +8,159 @@ deleteAll
 */
 
 const fs= require('fs');
-/* try {
-const data=fs.readFileSync('./docu.txt','utf-8');
-fs.writeFileSync('./docu.txt','ESTO ES UNA PRUEBA');
-const fecha = new Date();
-fs.appendFileSync('./docu.txt','hola'+fecha);
-
-console.log(data);
-} catch (err){
-    console.log(err);
-
-}
-try {
-    const data1=fs.readFileSync('./package.json','utf-8');
-   // fs.writeFileSync('./docu.txt','ESTO ES UNA PRUEBA');
-  //  const fecha = new Date();
- //   fs.appendFileSync('./docu.txt','hola'+fecha);
-    
-    console.log(data1);
-    try{
-        
-        fs.writeFileSync('./nfo.txt',data1);
-    }
-    catch (err){
-        console.log(err);
-    
-    }
-    
-    } catch (err){
-        console.log(err);
-    
-    }
- 
-    async function escribir(){
-        try{
-            await fs.promises.writeFile('./info1.txt','esto es una prueba');
-
-        }
-        catch (err){
-            //error
-        }
-    }
-    escribir(); */
-
-class Producto {
-        constructor (title,preci,thumbail){
-             this.title=title;
-             this.preci=preci;
-             this.thumbail=thumbail
-    
-    
-        }
-    }
-
- const pro=new Producto('title1',56.04,'thumbail1')    ;
-
-    // await y async
 class Contenedor {
-    constructor (nombrearchivo,id){
-         this.nombrearchivo=[];
-         this.id=0
 
-
+    constructor (archivo){
+          this.archivo=archivo
+          
     }
+
+    static array=[]
+
+    getById(j)
+    {
+        
+        let todo= this.getAll();
+        
+        const arr=todo.map(function(obj){
+            return obj;
+        });
+        Contenedor.array=arr;
+       
+        for(let i=0;i< Contenedor.array.length;i++)
+        {
+            if(i==j-1){
+               i=Contenedor.array.length;
+               return Contenedor.array[j-1];
+               
+            }
+        }
+        
+       
+        
+        
+    }
+
+    getAll(){
+    
+        try{
+    
+            const contenido= fs.readFileSync(this.archivo,'utf-8'); //sincrono solo se ejecuta este primero
+            const datos=JSON.parse(contenido); //parse lo pone este string como array
+            return datos;
+        }
+    
+        catch (error){
+            console.log('error getAll');
+    
+        }
+    
+        
+    }
+    
    
- async save(e,archivo){
-     try {
-        console.log(e);
-        await fs.promises.writeFile(archivo,JSON.stringify(e));
-        this.nombrearchivo.push(archivo) ;
-        this.id =this.id +1; 
-        console.log(this.id, this.nombrearchivo,JSON.stringify(e));
-        return this.id;
-        } catch (err){
-            console.log(err);
-        //return 0;
+    
+    save(e){
+    const obj=this.getAll();
+    const obj1=obj.map(function(obj2){
+    return obj2;
+    });
+
+    Contenedor.array=obj1;
+    Contenedor.array.push(e);
+   
+    const paso=JSON.stringify(Contenedor.array,null,2);
+
+        try {
+    
+        fs.writeFileSync(this.archivo,paso);
+       console.log('Largo actual:'+Contenedor.array.length);
+        } 
+        catch (err){
+    
+        console.log('error no escribe',err);
+    
         }
     
-
-
-    }
-
-getById(e){
-    const data1=fs.readFileSync(this.nombrearchivo[e],'UTF-6');
- return data1
-    
-    
-    
-}
-async getAll(){
-    let i=0;
-    try{
-        for(i=0;i< this.id;i++){
-          const contenido=this.nombrearchivo[i];
-         return contenido;
-        }
-    }
-    catch (err) {
-                console.log("error");
     }
     
+    
+
+    deleteAll(){
+    
+        Contenedor.array=[];
+        try {
+        fs.writeFileSync(this.archivo,JSON.stringify(Contenedor.array,null,2));
+        }   
+        catch (err){
+    
+            console.log('error',err);
         
-
-    }
-    
-    
-
-
-deleteById(e)
-{
-    
-        
-        fs.unlink(this.nombrearchivo[e],function(err){
-            if (err) throw err;
-            console.log('archivo eliminado');
-        });
-              
-        
+            }
     
 }
 
 
 
-deleteAll()
-{
+    deletebyId(j){
     
-    let i=0;
-    for(i=0;i< this.id;i++){
-        fs.unlink(this.nombrearchivo[i],function(err){
-            if (err) throw err;
-            console.log('archivo eliminado');
-            return 
-        });
-
+    let todo= this.getAll();
+    
+    
+    const arr=todo.map(function(obj){
+        return obj;
+    });
+    Contenedor.array=arr;
+    let arr2=[];
+    for(let i=0;i< Contenedor.array.length;i++)
+    {
+        if(i==j){
+           
+            console.log('se borra el elemento',i); i=i+1;
+        }else{
+        let obj1=arr[i];
+        arr2.push(obj1);
+       }
     }
+    Contenedor.array=arr2;
+    console.log('Largo Nuevo array',Contenedor.array.length);
+    try {
+    
+        fs.writeFileSync(this.archivo,JSON.stringify(arr2,null,2));
+    
+        } 
+        catch (err){
+    
+        console.log('error',err);
+    
+        }
+
+    
     
 }
 }
 
 const p=new Contenedor();
 
-p.save('./producto.txt','producton,666,foton');
-console.log(p.getAll());
+p.archivo = './productos.txt';
+
+const p1={
+
+nombre:'Escuadra', precio:'123.45', thumbail:'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png'};
+//p.save(p1);
+
+const p2 ={nombre:'Calculadora', precio:234.56, thumbail:'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png'};
+//p.save(p2);
+
+const p3={nombre:'Globo Terraqueo', precio: 345.67, thumbail: 'https://cdn3.iconfinder.com/data/icons/education/64/ruler-trianglestationary-school-256.png'}
+//p.save(p3);
+
+//console.log('borrar');
+
+
+//p.deletebyId(1);
+
+//console.log(p.getAll());
+//p.deleteAll();
+//console.log(p.getAll());
+console.log(p.getById(1));
